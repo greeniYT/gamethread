@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Details | GameCritik</title>
+    <style>
+        :root { --brand-green: #00bf63; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background: #fff; }
+        nav { background: var(--brand-green); padding: 10px 5%; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .logo-img { height: 40px; }
+        
+        .hero { background: #1a1a1a; color: white; padding: 50px 5%; display: flex; align-items: center; gap: 40px; border-bottom: 5px solid var(--brand-green); }
+        #game-img { width: 220px; border-radius: 8px; border: 4px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.5); object-fit: cover; background: #111;}
+        
+        .content { max-width: 1100px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: 2fr 1fr; gap: 50px; }
+        .review-card { border-bottom: 1px solid #eee; padding: 20px 0; }
+        .stars { color: #f2b01e; font-size: 1.2rem; margin: 5px 0; }
+        .sidebar { background: #f9f9f9; padding: 20px; border-radius: 8px; border: 1px solid #eee; height: fit-content; }
+        
+        .write-review-box { background: #f4f4f7; padding: 20px; border-radius: 8px; margin-bottom: 30px; border-left: 5px solid var(--brand-green); }
+        .write-review-box textarea { width: 100%; height: 80px; padding: 10px; margin-top: 10px; border-radius: 4px; border: 1px solid #ccc; box-sizing: border-box; resize: vertical; font-family: inherit; }
+        .submit-btn { background: var(--brand-green); color: white; border: none; padding: 10px 20px; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html"><img src="image_8ba69d.png" alt="Logo" class="logo-img"></a>
+</nav>
+
+<div class="hero">
+    <img id="game-img" src="" alt="Game Cover">
+    <div>
+        <h1 id="game-title" style="margin: 0 0 10px 0; font-size: 2.5rem;">Loading...</h1>
+        <div class="stars">★★★★★ <span style="color:white; font-size: 1rem; margin-left: 10px;" id="review-count"></span></div>
+        <p id="game-genre" style="color: #aaa; font-weight: bold;"></p>
+    </div>
+</div>
+
+<div class="content">
+    <section>
+        <div class="write-review-box">
+            <h3 style="margin-top: 0;">Write a Review</h3>
+            <select id="star-rating" style="padding: 5px;">
+                <option value="★★★★★">5 Stars - Masterpiece</option>
+                <option value="★★★★☆">4 Stars - Great</option>
+                <option value="★★★☆☆">3 Stars - Good</option>
+                <option value="★★☆☆☆">2 Stars - Meh</option>
+                <option value="★☆☆☆☆">1 Star - Terrible</option>
+            </select>
+            <textarea id="review-text" placeholder="What did you think of the game?"></textarea>
+            <button class="submit-btn" onclick="submitReview()">Post Review</button>
+        </div>
+
+        <h2>Community Reviews</h2>
+        <div id="reviews-container"></div>
+    </section>
+
+    <aside class="sidebar">
+        <h3>About this Game</h3>
+        <p id="game-desc"></p>
+        <hr style="border:0; border-top:1px solid #ddd; margin: 20px 0;">
+        <p><strong>Status:</strong> Verified Listing ✓</p>
+    </aside>
+</div>
+
+<script>
+    // Updated Image Links in Data
+    const gameData = {
+        'eldenring': { title: 'Elden Ring', img: 'https://upload.wikimedia.org/wikipedia/en/b/b9/Elden_Ring_Box_art.jpg', genre: 'Action RPG • FromSoftware', desc: 'Rise, Tarnished, and be guided by grace to brandish the power of the Elden Ring.', reviews: '45,210 Ratings' },
+        'minecraft': { title: 'Minecraft', img: 'https://upload.wikimedia.org/wikipedia/en/a/a2/Minecraft_Java_Edition_cover.jpeg', genre: 'Sandbox • Mojang', desc: 'Prepare for an adventure of limitless possibilities as you build, mine, and battle mobs.', reviews: '120,500 Ratings' },
+        'zelda': { title: 'Zelda: Breath of the Wild', img: 'https://upload.wikimedia.org/wikipedia/en/c/c6/The_Legend_of_Zelda_Breath_of_the_Wild.jpg', genre: 'Action-Adventure • Nintendo', desc: 'Step into a world of discovery, exploration, and adventure in this boundary-breaking game.', reviews: '82,100 Ratings' },
+        'gtav': { title: 'Grand Theft Auto V', img: 'https://upload.wikimedia.org/wikipedia/en/a/a5/Grand_Theft_Auto_V.png', genre: 'Open World • Rockstar Games', desc: 'When a young street hustler, a retired bank robber and a terrifying psychopath land themselves in trouble, they must pull off a series of dangerous heists.', reviews: '95,000 Ratings' },
+        'stardew': { title: 'Stardew Valley', img: 'https://upload.wikimedia.org/wikipedia/en/5/52/Stardew_Valley_gameplay.png', genre: 'Simulation • ConcernedApe', desc: 'You\'ve inherited your grandfather\'s old farm plot in Stardew Valley. Begin your new life.', reviews: '28,100 Ratings' },
+        'portal2': { title: 'Portal 2', img: 'https://upload.wikimedia.org/wikipedia/en/f/f9/Portal2cover.jpg', genre: 'Puzzle Platformer • Valve', desc: 'The highly anticipated sequel to the 2007 Game of the Year, Portal 2 is a hilariously mind-bending adventure.', reviews: '32,500 Ratings' },
+        'bg3': { title: 'Baldur\'s Gate 3', img: 'https://upload.wikimedia.org/wikipedia/en/1/12/Baldur%27s_Gate_3_cover_art.jpg', genre: 'CRPG • Larian Studios', desc: 'Gather your party and return to the Forgotten Realms in a tale of fellowship and betrayal, sacrifice and survival.', reviews: '60,300 Ratings' },
+        'rdr2': { title: 'Red Dead Redemption 2', img: 'https://upload.wikimedia.org/wikipedia/en/4/44/Red_Dead_Redemption_II.jpg', genre: 'Action-Adventure • Rockstar Games', desc: 'America, 1899. Arthur Morgan and the Van der Linde gang are outlaws on the run in a sprawling tale of life in the unforgiving heartland.', reviews: '110,400 Ratings' },
+        'godofwar': { title: 'God of War', img: 'https://upload.wikimedia.org/wikipedia/en/a/a7/God_of_War_4_cover.jpg', genre: 'Action-Adventure • Santa Monica Studio', desc: 'Living as a man outside the shadow of the gods, Kratos must adapt to unfamiliar lands, unexpected threats, and a second chance at being a father.', reviews: '88,900 Ratings' },
+        'witcher3': { title: 'The Witcher 3: Wild Hunt', img: 'https://upload.wikimedia.org/wikipedia/en/8/83/The_Witcher_3_Wild_Hunt_-_Blood_and_Wine_cover_art.jpg', genre: 'RPG • CD Projekt Red', desc: 'You are Geralt of Rivia, mercenary monster slayer. Before you stands a war-torn, monster-infested continent you can explore at will.', reviews: '75,400 Ratings' },
+        'hades': { title: 'Hades', img: 'https://upload.wikimedia.org/wikipedia/en/c/cc/Hades_cover_art.jpg', genre: 'Rogue-like • Supergiant Games', desc: 'Defy the god of the dead as you hack and slash your way out of the Underworld in this rogue-like dungeon crawler.', reviews: '40,200 Ratings' },
+        'hollowknight': { title: 'Hollow Knight', img: 'https://upload.wikimedia.org/wikipedia/en/d/da/Hollow_Knight_gameplay.png', genre: 'Metroidvania • Team Cherry', desc: 'Forge your own path in Hollow Knight! An epic action adventure through a vast ruined kingdom of insects and heroes.', reviews: '38,900 Ratings' }
+    };
+
+    const reviewPool = [
+        "Absolutely incredible experience. 10/10!",
+        "The graphics are a bit dated, but the gameplay is solid.",
+        "I spent 40 hours on this in one weekend. Send help.",
+        "A true masterpiece of the genre. Must play.",
+        "Buggy at launch, but the latest patch fixed everything.",
+        "The soundtrack alone is worth the price of admission.",
+        "Best game I've played in years. Period.",
+        "It's okay, but I wouldn't pay full price for it."
+    ];
+    const users = ["GamerGhost", "PixelPete", "LootLegend", "SlayingSarah", "QuestQueen", "NoobSlayer99"];
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const gameId = urlParams.get('id') || 'eldenring';
+    const selectedGame = gameData[gameId];
+
+    if (selectedGame) {
+        document.getElementById('game-title').innerText = selectedGame.title;
+        document.getElementById('game-img').src = selectedGame.img;
+        document.getElementById('game-genre').innerText = selectedGame.genre;
+        document.getElementById('game-desc').innerText = selectedGame.desc;
+        document.getElementById('review-count').innerText = selectedGame.reviews;
+
+        const reviewsContainer = document.getElementById('reviews-container');
+        for(let i=0; i<3; i++) {
+            const randomReview = reviewPool[Math.floor(Math.random() * reviewPool.length)];
+            const randomUser = users[Math.floor(Math.random() * users.length)];
+            const stars = (Math.random() > 0.5) ? "★★★★★" : "★★★★☆"; 
+            
+            reviewsContainer.innerHTML += `
+                <div class="review-card">
+                    <strong>${randomUser}</strong>
+                    <div class="stars">${stars}</div>
+                    <p>"${randomReview}"</p>
+                </div>
+            `;
+        }
+    }
+
+    function submitReview() {
+        const text = document.getElementById('review-text').value;
+        const stars = document.getElementById('star-rating').value;
+        
+        if(text.trim() === "") {
+            alert("Please write something before posting!");
+            return;
+        }
+
+        const reviewsContainer = document.getElementById('reviews-container');
+        const newReviewHTML = `
+            <div class="review-card" style="background: #f0fdf4; padding: 15px; border-left: 4px solid var(--brand-green);">
+                <strong>You (Guest User) <span style="color:var(--brand-green); font-size: 0.8rem;">NEW</span></strong>
+                <div class="stars">${stars}</div>
+                <p>"${text}"</p>
+            </div>
+        `;
+        
+        reviewsContainer.insertAdjacentHTML('afterbegin', newReviewHTML);
+        document.getElementById('review-text').value = ""; 
+    }
+</script>
+
+</body>
+</html>
