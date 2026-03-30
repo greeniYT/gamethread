@@ -17,7 +17,10 @@
         .search-bar button { padding: 12px 25px; background: #222; color: white; border: none; border-radius: 0 6px 6px 0; cursor: pointer; font-weight: bold; transition: 0.2s; }
         .search-bar button:hover { background: #000; }
 
-        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+        .container { max-width: 1400px; margin: 40px auto; padding: 0 20px; display: flex; gap: 30px; align-items: flex-start; }
+
+        .main-content { flex: 1; min-width: 0; }
+
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 25px; }
         
         .game-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-decoration: none; color: inherit; transition: 0.3s; display: flex; flex-direction: column; }
@@ -28,6 +31,13 @@
         .game-title { font-size: 1.2rem; margin: 0 0 5px 0; font-weight: bold; }
         .rating { color: #f2b01e; font-weight: bold; font-size: 1.1rem; }
         .btn { display: block; text-align: center; background: var(--brand-green); color: white; padding: 10px; border-radius: 6px; margin-top: 15px; font-weight: bold; }
+
+        /* Sidebar */
+        .sidebar { width: 300px; flex-shrink: 0; position: sticky; top: 20px; }
+        .ad-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: #999; margin-bottom: 6px; text-align: center; }
+        .ad-container { border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.12); transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; }
+        .ad-container:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,191,99,0.3); }
+        .ad-container img { display: block; width: 100%; height: auto; }
     </style>
 </head>
 <body>
@@ -35,101 +45,110 @@
 <nav>
     <a href="index.html"><img src="logo.png" alt="Logo" class="logo-img"></a>
     <div class="search-bar">
-        <input type="text" id="searchInput" placeholder="Search 10,000+ real games...">
+        <input type="text" id="searchInput" placeholder="Search...">
         <button>Search</button>
     </div>
 </nav>
 
 <div class="container">
-    <h2 style="margin-bottom: 20px;">Top Rated Games</h2>
-    <div class="grid" id="gameGrid">
-        <a href="game-details.html?id=eldenring" class="game-card">
-            <img src="https://upload.wikimedia.org/wikipedia/en/b/b9/Elden_Ring_Box_art.jpg" alt="Elden Ring">
-            <div class="card-content">
-                <div><div class="game-title">Elden Ring</div><div class="rating">★★★★★ (45k)</div></div>
-                <div class="btn">View Reviews</div>
-            </div>
-        </a>
-        <a href="game-details.html?id=minecraft" class="game-card">
-            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/b/b6/Minecraft_2024_cover_art.png/250px-Minecraft_2024_cover_art.png" alt="Minecraft">
-            <div class="card-content">
-                <div><div class="game-title">Minecraft</div><div class="rating">★★★★★ (120k)</div></div>
-                <div class="btn">View Reviews</div>
-            </div>
-        </a>
-        <a href="game-details.html?id=zelda" class="game-card">
-            <img src="https://upload.wikimedia.org/wikipedia/en/c/c6/The_Legend_of_Zelda_Breath_of_the_Wild.jpg" alt="Zelda BOTW">
-            <div class="card-content">
-                <div><div class="game-title">Zelda: Breath of the Wild</div><div class="rating">★★★★★ (82k)</div></div>
-                <div class="btn">View Reviews</div>
-            </div>
-        </a>
-        <a href="game-details.html?id=gtav" class="game-card">
-            <img src="https://upload.wikimedia.org/wikipedia/en/a/a5/Grand_Theft_Auto_V.png" alt="GTA V">
-            <div class="card-content">
-                <div><div class="game-title">Grand Theft Auto V</div><div class="rating">★★★★☆ (95k)</div></div>
-                <div class="btn">View Reviews</div>
-            </div>
-        </a>
-        <a href="game-details.html?id=stardew" class="game-card">
-            <img src="https://upload.wikimedia.org/wikipedia/en/f/fd/Logo_of_Stardew_Valley.png" alt="Stardew Valley">
-            <div class="card-content">
-                <div><div class="game-title">Stardew Valley</div><div class="rating">★★★★★ (28k)</div></div>
-                <div class="btn">View Reviews</div>
-            </div>
-        </a>
-        <a href="game-details.html?id=portal2" class="game-card">
-            <img src="https://upload.wikimedia.org/wikipedia/en/f/f9/Portal2cover.jpg" alt="Portal 2">
-            <div class="card-content">
-                <div><div class="game-title">Portal 2</div><div class="rating">★★★★★ (32k)</div></div>
-                <div class="btn">View Reviews</div>
-            </div>
-        </a>
-        <a href="game-details.html?id=bg3" class="game-card">
-            <img src="https://upload.wikimedia.org/wikipedia/en/1/12/Baldur%27s_Gate_3_cover_art.jpg" alt="Baldur's Gate 3">
-            <div class="card-content">
-                <div><div class="game-title">Baldur's Gate 3</div><div class="rating">★★★★★ (60k)</div></div>
-                <div class="btn">View Reviews</div>
-            </div>
-        </a>
-        <a href="game-details.html?id=rdr2" class="game-card">
-            <img src="https://upload.wikimedia.org/wikipedia/en/4/44/Red_Dead_Redemption_II.jpg" alt="Red Dead Redemption 2">
-            <div class="card-content">
-                <div><div class="game-title">Red Dead Redemption 2</div><div class="rating">★★★★★ (110k)</div></div>
-                <div class="btn">View Reviews</div>
-            </div>
-        </a>
-        <a href="game-details.html?id=godofwar" class="game-card">
-            <img src="https://upload.wikimedia.org/wikipedia/en/a/a7/God_of_War_4_cover.jpg" alt="God of War">
-            <div class="card-content">
-                <div><div class="game-title">God of War</div><div class="rating">★★★★★ (88k)</div></div>
-                <div class="btn">View Reviews</div>
-            </div>
-        </a>
-        <a href="game-details.html?id=witcher3" class="game-card">
-            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Witcher_3_cover_art.jpg/250px-Witcher_3_cover_art.jpg" alt="The Witcher 3">
-            <div class="card-content">
-                <div><div class="game-title">The Witcher 3</div><div class="rating">★★★★★ (75k)</div></div>
-                <div class="btn">View Reviews</div>
-            </div>
-        </a>
-        <a href="game-details.html?id=hades" class="game-card">
-            <img src="https://upload.wikimedia.org/wikipedia/en/c/cc/Hades_cover_art.jpg" alt="Hades">
-            <div class="card-content">
-                <div><div class="game-title">Hades</div><div class="rating">★★★★★ (40k)</div></div>
-                <div class="btn">View Reviews</div>
-            </div>
-        </a>
-        <a href="game-details.html?id=hollowknight" class="game-card">
-            <img src="https://upload.wikimedia.org/wikipedia/en/d/de/Hollow_Knight_2026_cover_art.jpg" alt="Hollow Knight">
-            <div class="card-content">
-                <div><div class="game-title">Hollow Knight</div><div class="rating">★★★★★ (38k)</div></div>
-                <div class="btn">View Reviews</div>
-            </div>
-        </a>
+    <div class="main-content">
+        <h2 style="margin-bottom: 20px;">Top Rated Games</h2>
+        <div class="grid" id="gameGrid">
+            <a href="game-details.html?id=eldenring" class="game-card">
+                <img src="https://upload.wikimedia.org/wikipedia/en/b/b9/Elden_Ring_Box_art.jpg" alt="Elden Ring">
+                <div class="card-content">
+                    <div><div class="game-title">Elden Ring</div><div class="rating">★★★★★ (45k)</div></div>
+                    <div class="btn">View Reviews</div>
+                </div>
+            </a>
+            <a href="game-details.html?id=minecraft" class="game-card">
+                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/b/b6/Minecraft_2024_cover_art.png/250px-Minecraft_2024_cover_art.png" alt="Minecraft">
+                <div class="card-content">
+                    <div><div class="game-title">Minecraft</div><div class="rating">★★★★★ (120k)</div></div>
+                    <div class="btn">View Reviews</div>
+                </div>
+            </a>
+            <a href="game-details.html?id=zelda" class="game-card">
+                <img src="https://upload.wikimedia.org/wikipedia/en/c/c6/The_Legend_of_Zelda_Breath_of_the_Wild.jpg" alt="Zelda BOTW">
+                <div class="card-content">
+                    <div><div class="game-title">Zelda: Breath of the Wild</div><div class="rating">★★★★★ (82k)</div></div>
+                    <div class="btn">View Reviews</div>
+                </div>
+            </a>
+            <a href="game-details.html?id=gtav" class="game-card">
+                <img src="https://upload.wikimedia.org/wikipedia/en/a/a5/Grand_Theft_Auto_V.png" alt="GTA V">
+                <div class="card-content">
+                    <div><div class="game-title">Grand Theft Auto V</div><div class="rating">★★★★☆ (95k)</div></div>
+                    <div class="btn">View Reviews</div>
+                </div>
+            </a>
+            <a href="game-details.html?id=stardew" class="game-card">
+                <img src="https://upload.wikimedia.org/wikipedia/en/f/fd/Logo_of_Stardew_Valley.png" alt="Stardew Valley">
+                <div class="card-content">
+                    <div><div class="game-title">Stardew Valley</div><div class="rating">★★★★★ (28k)</div></div>
+                    <div class="btn">View Reviews</div>
+                </div>
+            </a>
+            <a href="game-details.html?id=portal2" class="game-card">
+                <img src="https://upload.wikimedia.org/wikipedia/en/f/f9/Portal2cover.jpg" alt="Portal 2">
+                <div class="card-content">
+                    <div><div class="game-title">Portal 2</div><div class="rating">★★★★★ (32k)</div></div>
+                    <div class="btn">View Reviews</div>
+                </div>
+            </a>
+            <a href="game-details.html?id=bg3" class="game-card">
+                <img src="https://upload.wikimedia.org/wikipedia/en/1/12/Baldur%27s_Gate_3_cover_art.jpg" alt="Baldur's Gate 3">
+                <div class="card-content">
+                    <div><div class="game-title">Baldur's Gate 3</div><div class="rating">★★★★★ (60k)</div></div>
+                    <div class="btn">View Reviews</div>
+                </div>
+            </a>
+            <a href="game-details.html?id=rdr2" class="game-card">
+                <img src="https://upload.wikimedia.org/wikipedia/en/4/44/Red_Dead_Redemption_II.jpg" alt="Red Dead Redemption 2">
+                <div class="card-content">
+                    <div><div class="game-title">Red Dead Redemption 2</div><div class="rating">★★★★★ (110k)</div></div>
+                    <div class="btn">View Reviews</div>
+                </div>
+            </a>
+            <a href="game-details.html?id=godofwar" class="game-card">
+                <img src="https://upload.wikimedia.org/wikipedia/en/a/a7/God_of_War_4_cover.jpg" alt="God of War">
+                <div class="card-content">
+                    <div><div class="game-title">God of War</div><div class="rating">★★★★★ (88k)</div></div>
+                    <div class="btn">View Reviews</div>
+                </div>
+            </a>
+            <a href="game-details.html?id=witcher3" class="game-card">
+                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Witcher_3_cover_art.jpg/250px-Witcher_3_cover_art.jpg" alt="The Witcher 3">
+                <div class="card-content">
+                    <div><div class="game-title">The Witcher 3</div><div class="rating">★★★★★ (75k)</div></div>
+                    <div class="btn">View Reviews</div>
+                </div>
+            </a>
+            <a href="game-details.html?id=hades" class="game-card">
+                <img src="https://upload.wikimedia.org/wikipedia/en/c/cc/Hades_cover_art.jpg" alt="Hades">
+                <div class="card-content">
+                    <div><div class="game-title">Hades</div><div class="rating">★★★★★ (40k)</div></div>
+                    <div class="btn">View Reviews</div>
+                </div>
+            </a>
+            <a href="game-details.html?id=hollowknight" class="game-card">
+                <img src="https://upload.wikimedia.org/wikipedia/en/d/de/Hollow_Knight_2026_cover_art.jpg" alt="Hollow Knight">
+                <div class="card-content">
+                    <div><div class="game-title">Hollow Knight</div><div class="rating">★★★★★ (38k)</div></div>
+                    <div class="btn">View Reviews</div>
+                </div>
+            </a>
+        </div>
     </div>
-</div>
 
+    <!-- Sidebar Ad -->
+    <aside class="sidebar">
+        <div class="ad-label">Advertisement</div>
+        <a href="#" class="ad-container">
+            <img src="ad1.png" alt="GearZone.gg — Shop gaming accessories">
+        </a>
+    </aside>
+</div>
 
 </body>
 </html>
